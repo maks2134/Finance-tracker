@@ -1,7 +1,6 @@
 package com.myfinance.financetracker.service.impl;
 
 import com.myfinance.financetracker.dao.TransactionDao;
-//import com.myfinance.financetracker.exception.ResourceNotFoundException;
 import com.myfinance.financetracker.model.Transaction;
 import com.myfinance.financetracker.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * Реализация TransactionService.
@@ -45,7 +43,7 @@ public class TransactionServiceImpl implements TransactionService {
           boolean beforeEnd = endDate == null || date.compareTo(endDate) <= 0;
           return afterStart && beforeEnd;
         })
-        .collect(Collectors.toList());
+        .toList();
   }
 
   @Override

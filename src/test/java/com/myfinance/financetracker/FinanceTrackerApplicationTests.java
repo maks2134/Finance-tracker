@@ -8,6 +8,7 @@ class FinanceTrackerApplicationTests {
 
     @Test
     void contextLoads() {
+        throw new UnsupportedOperationException("Юпи йоу юпи ей это 6ая лаба");
     }
 
 }
