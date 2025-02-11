@@ -49,7 +49,7 @@
 - Установленный Docker (опционально, для запуска в контейнере).
 
 ### SonarCloud
-[Sonar](https://sonarcloud.io/project/overview?id=maks2134_Finance-tracker))
+[Sonar](https://sonarcloud.io/project/overview?id=maks2134_Finance-tracker)
 
 ### Шаги для запуска
    ```bash
