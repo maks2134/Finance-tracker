@@ -2,6 +2,7 @@ package com.myfinance.financetracker.dao.impl;
 
 import com.myfinance.financetracker.dao.AccountDao;
 import com.myfinance.financetracker.model.Account;
+import java.math.BigDecimal;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
@@ -16,8 +17,8 @@ public class AccountDaoImpl implements AccountDao {
 
   public AccountDaoImpl() {
     // Предварительная инициализация тестовыми данными
-    Account acc1 = new Account(idGenerator.getAndIncrement(), "Основной счет", "Банковский", 5000.0);
-    Account acc2 = new Account(idGenerator.getAndIncrement(), "Сберегательный счет", "Банковский", 10000.0);
+    Account acc1 = new Account(idGenerator.getAndIncrement(), "Основной счет", "Банковский", new BigDecimal("5000.0"));
+    Account acc2 = new Account(idGenerator.getAndIncrement(), "Сберегательный счет", "Банковский", new BigDecimal("10000.0"));
     accountStore.put(acc1.getId(), acc1);
     accountStore.put(acc2.getId(), acc2);
   }

@@ -1,17 +1,18 @@
 package com.myfinance.financetracker.model;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
 public class Account {
   private Long id;
   private String name;
   private String type;
-  private Double balance;
+  private BigDecimal balance;
 
   public Account() {
   }
 
-  public Account(Long id, String name, String type, Double balance) {
+  public Account(Long id, String name, String type, BigDecimal balance) {
     this.id = id;
     this.name = name;
     this.type = type;
@@ -42,11 +43,11 @@ public class Account {
     this.type = type;
   }
 
-  public Double getBalance() {
+  public BigDecimal getBalance() {
     return balance;
   }
 
-  public void setBalance(Double balance) {
+  public void setBalance(BigDecimal balance) {
     this.balance = balance;
   }
 
