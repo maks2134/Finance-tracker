@@ -9,28 +9,28 @@ import java.util.Optional;
  */
 public interface TransactionService {
 
-  /**
-   * Получение транзакции по идентификатору.
-   *
-   * @param id идентификатор транзакции
-   * @return Optional с транзакцией, если найдена
-   */
-  Optional<Transaction> getTransactionById(Long id);
+    /**
+     * Получение транзакции по идентификатору.
+     *
+     * @param id идентификатор транзакции
+     * @return Optional с транзакцией, если найдена
+     */
+    Optional<Transaction> getTransactionById(Long id);
 
-  /**
-   * Получение транзакций в указанном диапазоне дат.
-   *
-   * @param startDate начало диапазона (в формате yyyy-MM-dd)
-   * @param endDate конец диапазона (в формате yyyy-MM-dd)
-   * @return список транзакций, удовлетворяющих критериям
-   */
-  List<Transaction> getTransactionsByDateRange(String startDate, String endDate);
+    /**
+     * Получение транзакций в указанном диапазоне дат.
+     *
+     * @param startDate начало диапазона (в формате yyyy-MM-dd)
+     * @param endDate конец диапазона (в формате yyyy-MM-dd)
+     * @return список транзакций, удовлетворяющих критериям
+     */
+    List<Transaction> getTransactionsByDateRange(String startDate, String endDate);
 
-  /**
-   * Сохранение (или обновление) транзакции.
-   *
-   * @param transaction транзакция для сохранения
-   * @return сохранённая транзакция
-   */
-  Transaction createOrUpdateTransaction(Transaction transaction);
+    /**
+     * Сохранение (или обновление) транзакции.
+     *
+     * @param transaction транзакция для сохранения
+     * @return сохранённая транзакция
+     */
+    Transaction createOrUpdateTransaction(Transaction transaction);
 }

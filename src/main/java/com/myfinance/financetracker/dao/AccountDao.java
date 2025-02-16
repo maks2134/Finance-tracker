@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface AccountDao {
-  Optional<Account> findById(Long id);
-  List<Account> findAll();
-  Account save(Account account);
+    Optional<Account> findById(Long id);
+
+    List<Account> findAll();
+    
+    Account save(Account account);
 }

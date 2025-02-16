@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface AccountService {
-  Optional<Account> getAccountById(Long id);
-  List<Account> getAllAccounts();
-  Account createOrUpdateAccount(Account account);
+    Optional<Account> getAccountById(Long id);
+
+    List<Account> getAllAccounts();
+
+    Account createOrUpdateAccount(Account account);
 }

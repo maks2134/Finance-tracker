@@ -3,33 +3,34 @@ package com.myfinance.financetracker.service.impl;
 import com.myfinance.financetracker.dao.CategoryDao;
 import com.myfinance.financetracker.model.Category;
 import com.myfinance.financetracker.service.CategoryService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
-  private final CategoryDao categoryDao;
+    private final CategoryDao categoryDao;
 
-  @Autowired
+    @Autowired
   public CategoryServiceImpl(CategoryDao categoryDao) {
-    this.categoryDao = categoryDao;
-  }
+        this.categoryDao = categoryDao;
+    }
 
-  @Override
+    @Override
   public Optional<Category> getCategoryById(Long id) {
-    return categoryDao.findById(id);
-  }
+        return categoryDao.findById(id);
+    }
 
-  @Override
+    @Override
   public List<Category> getAllCategories() {
-    return categoryDao.findAll();
-  }
+        return categoryDao.findAll();
+    }
 
-  @Override
+    @Override
   public Category createOrUpdateCategory(Category category) {
-    return categoryDao.save(category);
-  }
+        return categoryDao.save(category);
+    }
 }

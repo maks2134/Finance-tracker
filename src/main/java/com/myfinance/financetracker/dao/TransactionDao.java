@@ -15,20 +15,20 @@ public interface TransactionDao {
    * @param id идентификатор транзакции
    * @return Optional с найденной транзакцией или пустой, если транзакция не найдена
    */
-  Optional<Transaction> findById(Long id);
+    Optional<Transaction> findById(Long id);
 
-  /**
-   * Поиск всех транзакций.
-   *
-   * @return список транзакций
-   */
-  List<Transaction> findAll();
+    /**
+     * Поиск всех транзакций.
+     *
+     * @return список транзакций
+     */
+    List<Transaction> findAll();
 
-  /**
-   * Сохранение транзакции.
-   *
-   * @param transaction транзакция для сохранения
-   * @return сохраненная транзакция
-   */
-  Transaction save(Transaction transaction);
+    /**
+     * Сохранение транзакции.
+     *
+     * @param transaction транзакция для сохранения
+     * @return сохраненная транзакция
+     */
+    Transaction save(Transaction transaction);
 }
