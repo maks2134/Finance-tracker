@@ -32,4 +32,9 @@ public class AccountServiceImpl implements AccountService {
     public Account createOrUpdateAccount(Account account) {
         return accountDao.save(account);
     }
+
+    @Override
+    public void deleteAccount(Long id) {
+        accountDao.deleteById(id); // Новый метод
+    }
 }

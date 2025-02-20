@@ -28,7 +28,8 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public List<Transaction> getTransactionsByDateRange(final String startDate, final String endDate) {
+    public List<Transaction> getTransactionsByDateRange(final String startDate,
+                                                        final String endDate) {
         List<Transaction> allTransactions = transactionDao.findAll();
 
         // Если параметры не заданы, возвращаем все транзакции
@@ -49,5 +50,10 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public Transaction createOrUpdateTransaction(final Transaction transaction) {
         return transactionDao.save(transaction);
+    }
+
+    @Override
+    public void deleteTransaction(Long id) {
+        transactionDao.deleteById(id);
     }
 }

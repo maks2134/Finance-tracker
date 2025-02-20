@@ -41,4 +41,9 @@ public class CategoryDaoImpl implements CategoryDao {
         categoryStore.put(category.getId(), category);
         return category;
     }
+
+    @Override
+    public void deleteById(Long id) {
+        categoryStore.remove(id);
+    }
 }

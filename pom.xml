@@ -37,7 +37,12 @@
             <scope>runtime</scope>
             <optional>true</optional>
         </dependency>
-
+        <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.6.0</version>
+        </dependency>
         <!-- Тестовые зависимости -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

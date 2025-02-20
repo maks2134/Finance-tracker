@@ -33,4 +33,6 @@ public interface TransactionService {
      * @return сохранённая транзакция
      */
     Transaction createOrUpdateTransaction(Transaction transaction);
+
+    void deleteTransaction(Long id);
 }

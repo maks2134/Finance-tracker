@@ -33,4 +33,9 @@ public class CategoryServiceImpl implements CategoryService {
   public Category createOrUpdateCategory(Category category) {
         return categoryDao.save(category);
     }
+
+    @Override
+    public void deleteCategory(Long id) {
+        categoryDao.deleteById(id);
+    }
 }

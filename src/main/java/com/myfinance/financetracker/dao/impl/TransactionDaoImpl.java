@@ -48,4 +48,9 @@ public class TransactionDaoImpl implements TransactionDao {
         transactionStore.put(transaction.getId(), transaction);
         return transaction;
     }
+
+    @Override
+    public void deleteById(Long id) {
+        transactionStore.remove(id);
+    }
 }

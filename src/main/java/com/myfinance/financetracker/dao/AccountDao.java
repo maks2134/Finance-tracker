@@ -10,4 +10,6 @@ public interface AccountDao {
     List<Account> findAll();
     
     Account save(Account account);
+
+    void deleteById(Long id);
 }

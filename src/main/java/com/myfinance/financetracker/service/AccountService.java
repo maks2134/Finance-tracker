@@ -10,4 +10,6 @@ public interface AccountService {
     List<Account> getAllAccounts();
 
     Account createOrUpdateAccount(Account account);
+
+    void deleteAccount(Long id);
 }

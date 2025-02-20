@@ -46,4 +46,9 @@ public class AccountDaoImpl implements AccountDao {
         accountStore.put(account.getId(), account);
         return account;
     }
+
+    @Override
+    public void deleteById(Long id) {
+        accountStore.remove(id); // Новый метод
+    }
 }

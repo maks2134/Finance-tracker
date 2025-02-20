@@ -6,11 +6,15 @@ import com.myfinance.financetracker.service.TransactionService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PostMapping;
 
 /**
  * REST-контроллер для управления транзакциями.
@@ -26,12 +30,6 @@ public class TransactionController {
         this.transactionService = transactionService;
     }
 
-    /**
-     * GET эндпоинт для получения транзакции по идентификатору.
-     *
-     * @param id идентификатор транзакции
-     * @return транзакция в виде JSON
-     */
     @GetMapping("/{id}")
     public ResponseEntity<Transaction> getTransactionById(@PathVariable final Long id) {
         Transaction transaction = transactionService.getTransactionById(id)
@@ -52,7 +50,32 @@ public class TransactionController {
     public ResponseEntity<List<Transaction>> getTransactionsByDateRange(
         @RequestParam(required = false) final String startDate,
         @RequestParam(required = false) final String endDate) {
-        List<Transaction> transactions = transactionService.getTransactionsByDateRange(startDate, endDate);
+        List<Transaction> transactions = transactionService.getTransactionsByDateRange(startDate,
+            endDate);
         return ResponseEntity.ok(transactions);
+    }
+
+    @PostMapping
+    public ResponseEntity<Transaction> createTransaction(@RequestBody Transaction transaction) {
+        Transaction createdTransaction = transactionService.createOrUpdateTransaction(transaction);
+        return ResponseEntity.ok(createdTransaction);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Transaction> updateTransaction(@PathVariable Long id,
+                                                         @RequestBody Transaction transactionDetails) {
+        Transaction transaction = transactionService.getTransactionById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Transaction not found with id " + id));
+        transaction.setAmount(transactionDetails.getAmount());
+        transaction.setDate(transactionDetails.getDate());
+        transaction.setDescription(transactionDetails.getDescription());
+        Transaction updatedTransaction = transactionService.createOrUpdateTransaction(transaction);
+        return ResponseEntity.ok(updatedTransaction);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteTransaction(@PathVariable Long id) {
+        transactionService.deleteTransaction(id);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -10,4 +10,6 @@ public interface CategoryDao {
     List<Category> findAll();
 
     Category save(Category category);
+
+    void deleteById(Long id);
 }

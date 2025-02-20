@@ -9,7 +9,8 @@ public class Transaction {
     private String date;
     private String description;
 
-    public Transaction(final Long id, final Double amount, final String date, final String description) {
+    public Transaction(final Long id, final Double amount,
+                       final String date, final String description) {
         this.id = id;
         this.amount = amount;
         this.date = date;
@@ -67,6 +68,7 @@ public class Transaction {
 
     @Override
     public String toString() {
-        return "Transaction [id=" + id + ", amount=" + amount + ", date=" + date + ", description=" + description + "]";
+        return "Transaction [id=" + id + ", amount=" + amount + ", date=" + date + ", description="
+            + description + "]";
     }
 }

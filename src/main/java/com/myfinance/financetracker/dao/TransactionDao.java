@@ -9,7 +9,7 @@ import java.util.Optional;
  */
 public interface TransactionDao {
 
-  /**
+    /**
    * Поиск транзакции по идентификатору.
    *
    * @param id идентификатор транзакции
@@ -31,4 +31,7 @@ public interface TransactionDao {
      * @return сохраненная транзакция
      */
     Transaction save(Transaction transaction);
+
+    void deleteById(Long id);
+
 }
