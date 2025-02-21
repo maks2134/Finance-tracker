@@ -1,33 +1,55 @@
 package com.myfinance.financetracker.model;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@Entity
+@Table(name = "users")
 public class User {
-    private Long id;
-    private String username;
-    private String email;
-    private List<Account> accounts = new ArrayList<>();
-    private List<Transaction> transactions = new ArrayList<>();
 
-    public User(Long id, String username, String email) {
-        this.id = id;
-        this.username = username;
-        this.email = email;
-    }
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    public Long getId() {
-        return id;
-    }
+	private String username;
+	private String email;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	// Пример связей: пользователь может иметь несколько счетов и транзакций
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id") // Для упрощения однонаправленной связи
+	private List<Account> accounts = new ArrayList<>();
 
-    public String getUsername() {
-        return username;
-    }
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id")
+	private List<Transaction> transactions = new ArrayList<>();
+
+	public User() {
+	}
+
+	public User(String username, String email) {
+		this.username = username;
+		this.email = email;
+	}
+
+	// Геттеры и сеттеры
+
+	public Long getId() {
+		return id;
+	}
+
+	public String getUsername() {
+		return username;
+	}
 
 	public void setUsername(String username) {
 		this.username = username;

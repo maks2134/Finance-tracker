@@ -1,23 +1,41 @@
 package com.myfinance.financetracker.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.Table;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
+@Entity
+@Table(name = "categories")
 public class Category {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
 
-    public Category(Long id, String name) {
-        this.id = id;
+    // Необязательная обратная связь (если нужна двунаправленная связь)
+    @ManyToMany(mappedBy = "categories", fetch = FetchType.LAZY)
+    private List<Budget> budgets = new ArrayList<>();
 
+    public Category() {
+    }
+
+    public Category(String name) {
         this.name = name;
     }
 
+    // Геттеры и сеттеры
+
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -28,25 +46,32 @@ public class Category {
         this.name = name;
     }
 
+    public List<Budget> getBudgets() {
+        return budgets;
+    }
+
+    public void setBudgets(List<Budget> budgets) {
+        this.budgets = budgets;
+    }
+
     @Override
-  public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof Category)) {
-            return false;
-        }
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Category)) return false;
         Category category = (Category) o;
         return Objects.equals(getId(), category.getId());
     }
 
     @Override
-  public int hashCode() {
+    public int hashCode() {
         return Objects.hash(getId());
     }
 
     @Override
-  public String toString() {
-        return "Category [id=" + id + ", name=" + name + "]";
+    public String toString() {
+        return "Category{" +
+            "id=" + id +
+            ", name='" + name + '\'' +
+            '}';
     }
 }

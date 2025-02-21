@@ -1,27 +1,41 @@
 package com.myfinance.financetracker.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.util.Objects;
 
+@Entity
+@Table(name = "accounts")
 public class Account {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
     private String type;
+
+    @Column(precision = 19, scale = 2)
     private BigDecimal balance;
 
-    public Account(Long id, String name, String type, BigDecimal balance) {
-        this.id = id;
+    public Account() {
+    }
+
+    public Account(String name, String type, BigDecimal balance) {
         this.name = name;
         this.type = type;
         this.balance = balance;
     }
 
+    // Геттеры и сеттеры
+
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -50,12 +64,8 @@ public class Account {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof Account)) {
-            return false;
-        }
+        if (this == o) return true;
+        if (!(o instanceof Account)) return false;
         Account account = (Account) o;
         return Objects.equals(getId(), account.getId());
     }
@@ -67,7 +77,11 @@ public class Account {
 
     @Override
     public String toString() {
-        return "Account [id=" + id + ", name=" + name + ", type=" + type
-            + ", balance=" + balance + "]";
+        return "Account{" +
+            "id=" + id +
+            ", name='" + name + '\'' +
+            ", type='" + type + '\'' +
+            ", balance=" + balance +
+            '}';
     }
 }
