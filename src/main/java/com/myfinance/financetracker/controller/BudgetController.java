@@ -43,7 +43,7 @@ public class BudgetController {
 		Budget budget = budgetService.getBudgetById(id)
 			.orElseThrow(() -> new ResourceNotFoundException("Budget not found with id " + id));
 		budget.setName(budgetDetails.getName());
-		budget.setLimit(budgetDetails.getLimit());
+		budget.setLimitAmount(budgetDetails.getLimitAmount()); // Исправлено на setLimitAmount
 		Budget updatedBudget = budgetService.createOrUpdateBudget(budget);
 		return ResponseEntity.ok(updatedBudget);
 	}
@@ -53,6 +53,4 @@ public class BudgetController {
 		budgetService.deleteBudget(id);
 		return ResponseEntity.noContent().build();
 	}
-
-
 }

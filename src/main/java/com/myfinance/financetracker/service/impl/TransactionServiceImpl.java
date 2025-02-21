@@ -1,9 +1,9 @@
 package com.myfinance.financetracker.service.impl;
 
-import com.myfinance.financetracker.dao.BudgetDao;
-import com.myfinance.financetracker.dao.TransactionDao;
 import com.myfinance.financetracker.model.Budget;
 import com.myfinance.financetracker.model.Transaction;
+import com.myfinance.financetracker.repository.BudgetRepository;
+import com.myfinance.financetracker.repository.TransactionRepository;
 import com.myfinance.financetracker.service.TransactionService;
 import java.util.List;
 import java.util.Optional;
@@ -13,25 +13,24 @@ import org.springframework.stereotype.Service;
 @Service
 public class TransactionServiceImpl implements TransactionService {
 
-    private final TransactionDao transactionDao;
-    private final BudgetDao budgetDao;
+    private final TransactionRepository transactionRepository;
+    private final BudgetRepository budgetRepository;
 
     @Autowired
-    public TransactionServiceImpl(final TransactionDao transactionDao, final BudgetDao budgetDao) {
-        this.transactionDao = transactionDao;
-        this.budgetDao = budgetDao;
+    public TransactionServiceImpl(TransactionRepository transactionRepository, BudgetRepository budgetRepository) {
+        this.transactionRepository = transactionRepository;
+        this.budgetRepository = budgetRepository;
     }
 
     @Override
-    public Optional<Transaction> getTransactionById(final Long id) {
-        return transactionDao.findById(id);
+    public Optional<Transaction> getTransactionById(Long id) {
+        return transactionRepository.findById(id);
     }
 
     @Override
-    public List<Transaction> getTransactionsByDateRange(final String startDate, final String endDate) {
-        List<Transaction> allTransactions = transactionDao.findAll();
+    public List<Transaction> getTransactionsByDateRange(String startDate, String endDate) {
+        List<Transaction> allTransactions = transactionRepository.findAll();
 
-        // Если параметры не заданы, возвращаем все транзакции
         if (startDate == null && endDate == null) {
             return allTransactions;
         }
@@ -47,21 +46,19 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public Transaction createOrUpdateTransaction(final Transaction transaction) {
-        // Определяем, создаётся ли новая транзакция
+    public Transaction createOrUpdateTransaction(Transaction transaction) {
         boolean isNew = (transaction.getId() == null);
-        Transaction savedTransaction = transactionDao.save(transaction);
+        Transaction savedTransaction = transactionRepository.save(transaction);
         if (isNew && transaction.getBudget() != null) {
             Budget budget = transaction.getBudget();
-            // Обновляем сумму потраченного бюджета
             budget.setSpent(budget.getSpent() + transaction.getAmount());
-            budgetDao.save(budget);
+            budgetRepository.save(budget);
         }
         return savedTransaction;
     }
 
     @Override
     public void deleteTransaction(Long id) {
-        transactionDao.deleteById(id);
+        transactionRepository.deleteById(id);
     }
 }
