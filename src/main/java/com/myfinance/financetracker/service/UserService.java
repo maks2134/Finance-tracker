@@ -5,11 +5,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
-	Optional<User> getUserById(Long id);
+    Optional<User> getUserById(Long id);
 
-	List<User> getAllUsers();
+    List<User> getAllUsers();
 
-	User createOrUpdateUser(User user);
+    User createOrUpdateUser(User user);
 
-	void deleteUser(Long id);
+    void deleteUser(Long id);
 }

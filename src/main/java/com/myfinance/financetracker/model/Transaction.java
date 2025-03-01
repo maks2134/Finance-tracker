@@ -80,10 +80,15 @@ public class Transaction {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Transaction)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Transaction)) {
+            return false;
+        }
         Transaction that = (Transaction) o;
-        return Objects.equals(getId(), that.getId()) &&
+        return Objects.equals(getId(), that.getId())
+            &&
             Objects.equals(getDate(), that.getDate());
     }
 
@@ -94,11 +99,22 @@ public class Transaction {
 
     @Override
     public String toString() {
-        return "Transaction{" +
-            "id=" + id +
-            ", amount=" + amount +
-            ", date='" + date + '\'' +
-            ", description='" + description + '\'' +
+        return "Transaction{"
+            +
+            "id="
+            + id
+            +
+            ", amount="
+            + amount
+            +
+            ", date='"
+            + date
+            + '\''
+            +
+            ", description='"
+            + description
+            + '\''
+            +
             '}';
     }
 }

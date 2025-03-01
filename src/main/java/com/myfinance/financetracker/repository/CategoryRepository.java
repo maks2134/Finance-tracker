@@ -1,4 +1,3 @@
-// CategoryRepository.java
 package com.myfinance.financetracker.repository;
 
 import com.myfinance.financetracker.model.Category;

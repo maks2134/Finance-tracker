@@ -21,7 +21,6 @@ public class Category {
 
     private String name;
 
-    // Необязательная обратная связь (если нужна двунаправленная связь)
     @ManyToMany(mappedBy = "categories", fetch = FetchType.LAZY)
     private List<Budget> budgets = new ArrayList<>();
 
@@ -31,8 +30,6 @@ public class Category {
     public Category(String name) {
         this.name = name;
     }
-
-    // Геттеры и сеттеры
 
     public Long getId() {
         return id;
@@ -56,8 +53,12 @@ public class Category {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Category)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Category)) {
+            return false;
+        }
         Category category = (Category) o;
         return Objects.equals(getId(), category.getId());
     }
@@ -69,9 +70,15 @@ public class Category {
 
     @Override
     public String toString() {
-        return "Category{" +
-            "id=" + id +
-            ", name='" + name + '\'' +
+        return "Category{"
+            +
+            "id="
+            + id
+            +
+            ", name='"
+            + name
+            + '\''
+            +
             '}';
     }
 }

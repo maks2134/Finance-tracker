@@ -31,4 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
-google_checks.xml
+
+### Check Style ###
+google.xml

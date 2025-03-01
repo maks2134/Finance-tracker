@@ -9,12 +9,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.PostMapping;
+
 
 /**
  * REST-контроллер для управления транзакциями.
@@ -62,10 +63,12 @@ public class TransactionController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Transaction> updateTransaction(@PathVariable Long id,
-                                                         @RequestBody Transaction transactionDetails) {
+    public ResponseEntity<Transaction>
+        updateTransaction(@PathVariable Long id,
+         @RequestBody Transaction transactionDetails) {
         Transaction transaction = transactionService.getTransactionById(id)
-            .orElseThrow(() -> new ResourceNotFoundException("Transaction not found with id " + id));
+            .orElseThrow(() -> new ResourceNotFoundException("Transaction not found with id "
+                + id));
         transaction.setAmount(transactionDetails.getAmount());
         transaction.setDate(transactionDetails.getDate());
         transaction.setDescription(transactionDetails.getDescription());

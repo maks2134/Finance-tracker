@@ -17,7 +17,8 @@ public class TransactionServiceImpl implements TransactionService {
     private final BudgetRepository budgetRepository;
 
     @Autowired
-    public TransactionServiceImpl(TransactionRepository transactionRepository, BudgetRepository budgetRepository) {
+    public TransactionServiceImpl(TransactionRepository transactionRepository,
+                                  BudgetRepository budgetRepository) {
         this.transactionRepository = transactionRepository;
         this.budgetRepository = budgetRepository;
     }
