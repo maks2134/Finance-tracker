@@ -51,7 +51,6 @@ public class AnalyticsServiceImpl implements AnalyticsService {
         analyticsRepository.deleteByIdAndUser(id, user);
     }
 
-    // Метод для проверки активной подписки
     private void checkSubscription(User user) {
         List<Subscription> subscriptions = subscriptionService.getAllSubscriptionsByUser(user);
         boolean hasActiveSubscription = subscriptions.stream()
