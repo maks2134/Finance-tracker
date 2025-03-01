@@ -1,6 +1,7 @@
 package com.myfinance.financetracker.service.impl;
 
 import com.myfinance.financetracker.model.Subscription;
+import com.myfinance.financetracker.model.User;
 import com.myfinance.financetracker.repository.SubscriptionRepository;
 import com.myfinance.financetracker.service.SubscriptionService;
 import java.util.List;
@@ -26,6 +27,11 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     @Override
     public List<Subscription> getAllSubscriptions() {
         return subscriptionRepository.findAll();
+    }
+
+    @Override
+    public List<Subscription> getAllSubscriptionsByUser(User user) {
+        return subscriptionRepository.findByUser(user); // Новый метод
     }
 
     @Override

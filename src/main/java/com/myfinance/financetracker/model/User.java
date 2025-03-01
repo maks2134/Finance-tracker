@@ -32,12 +32,27 @@ public class User {
     @JoinColumn(name = "user_id")
     private List<Transaction> transactions = new ArrayList<>();
 
-    public User() {}
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private List<Payment> payments = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private List<Subscription> subscriptions = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private List<Analytics> analytics = new ArrayList<>();
+
+    public User() {
+    }
 
     public User(String username, String email) {
         this.username = username;
         this.email = email;
     }
+
+    // Геттеры и сеттеры
 
     public Long getId() {
         return id;
@@ -56,11 +71,11 @@ public class User {
     }
 
     public void setEmail(String email) {
-	this.email = email;
+        this.email = email;
     }
 
     public List<Account> getAccounts() {
-	return accounts;
+        return accounts;
     }
 
     public void setAccounts(List<Account> accounts) {
@@ -75,14 +90,38 @@ public class User {
         this.transactions = transactions;
     }
 
+    public List<Payment> getPayments() {
+        return payments;
+    }
+
+    public void setPayments(List<Payment> payments) {
+        this.payments = payments;
+    }
+
+    public List<Subscription> getSubscriptions() {
+        return subscriptions;
+    }
+
+    public void setSubscriptions(List<Subscription> subscriptions) {
+        this.subscriptions = subscriptions;
+    }
+
+    public List<Analytics> getAnalytics() {
+        return analytics;
+    }
+
+    public void setAnalytics(List<Analytics> analytics) {
+        this.analytics = analytics;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
- 	    return true;
-	}
-    	if (!(o instanceof User)) {
-	    return false;
-	}
+            return true;
+        }
+        if (!(o instanceof User)) {
+            return false;
+        }
         User user = (User) o;
         return Objects.equals(getId(), user.getId());
     }
@@ -93,16 +132,20 @@ public class User {
     }
 
     @Override
-	public String toString() {
+    public String toString() {
         return "User{"
-			+ "id="
-			+ id
-			+ ", username='"
-			+ username
-			+ '\''
-			+ ", email='"
-			+ email
-			+ '\''
-			+ '}';
+            +
+            "id="
+            + id
+            +
+            ", username='"
+            + username
+            + '\''
+            +
+            ", email='"
+            + email
+            + '\''
+            +
+            '}';
     }
 }
