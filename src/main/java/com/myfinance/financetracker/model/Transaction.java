@@ -1,5 +1,7 @@
 package com.myfinance.financetracker.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -20,24 +22,29 @@ public class Transaction {
 
     private Double amount;
 
-    // Можно хранить дату как строку или использовать java.time.LocalDate (рекомендуется)
     private String date;
 
     private String description;
 
-    // Связь многие ко одному с бюджетом
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "budget_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"}) // Игнорируем прокси
     private Budget budget;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    @JsonBackReference
+    private User user; // Связь с пользователем
 
     public Transaction() {
     }
 
-    public Transaction(Double amount, String date, String description, Budget budget) {
+    public Transaction(Double amount, String date, String description, Budget budget, User user) {
         this.amount = amount;
         this.date = date;
         this.description = description;
         this.budget = budget;
+        this.user = user;
     }
 
     // Геттеры и сеттеры
@@ -76,6 +83,14 @@ public class Transaction {
 
     public void setBudget(Budget budget) {
         this.budget = budget;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override

@@ -11,5 +11,7 @@ public interface BudgetService {
 
     Budget createOrUpdateBudget(Budget budget);
 
+    Budget createOrUpdateBudgetWithCategoryIds(Budget budget, List<Long> categoryIds);
+
     void deleteBudget(Long id);
 }

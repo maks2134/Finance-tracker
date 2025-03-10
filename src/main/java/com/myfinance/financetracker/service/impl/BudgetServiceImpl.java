@@ -1,7 +1,9 @@
 package com.myfinance.financetracker.service.impl;
 
 import com.myfinance.financetracker.model.Budget;
+import com.myfinance.financetracker.model.Category;
 import com.myfinance.financetracker.repository.BudgetRepository;
+import com.myfinance.financetracker.repository.CategoryRepository;
 import com.myfinance.financetracker.service.BudgetService;
 import java.util.List;
 import java.util.Optional;
@@ -11,10 +13,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class BudgetServiceImpl implements BudgetService {
     private final BudgetRepository budgetRepository;
+    private final CategoryRepository categoryRepository; // Добавляем репозиторий категорий
 
     @Autowired
-    public BudgetServiceImpl(BudgetRepository budgetRepository) {
+    public BudgetServiceImpl(BudgetRepository budgetRepository,
+                             CategoryRepository categoryRepository) {
         this.budgetRepository = budgetRepository;
+        this.categoryRepository = categoryRepository; // Инициализируем репозиторий категорий
     }
 
     @Override
@@ -29,6 +34,21 @@ public class BudgetServiceImpl implements BudgetService {
 
     @Override
     public Budget createOrUpdateBudget(Budget budget) {
+        // Присоединяем категории к текущей сессии
+        if (budget.getCategories() != null) {
+            List<Long> listCategoriesId = budget.getCategories().stream().map(Category::getId).toList();
+            List<Category> managedCategories = categoryRepository.findAllById(listCategoriesId);
+            budget.setCategories(managedCategories);
+        }
+        return budgetRepository.save(budget);
+    }
+
+    @Override
+    public Budget createOrUpdateBudgetWithCategoryIds(Budget budget, List<Long> categoryIds) {
+        // Загружаем категории по их ID
+        List<Category> categories = categoryRepository.findAllById(categoryIds);
+        budget.setCategories(categories);
+
         return budgetRepository.save(budget);
     }
 

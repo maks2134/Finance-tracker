@@ -1,6 +1,11 @@
 package com.myfinance.financetracker.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.myfinance.financetracker.model.enums.SubscriptionStatus;
+import com.myfinance.financetracker.model.enums.SubscriptionType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -9,7 +14,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 @Entity
 @Table(name = "subscriptions")
@@ -19,26 +23,20 @@ public class Subscription {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String subscriptionType; // Например, "MONTHLY", "YEARLY"
+    @Enumerated(EnumType.STRING)
+    private SubscriptionType subscriptionType;
+
     private LocalDateTime startDate;
+
     private LocalDateTime endDate;
-    private String status; // Например, "ACTIVE", "CANCELLED", "EXPIRED"
+
+    @Enumerated(EnumType.STRING)
+    private SubscriptionStatus status;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
+    @JsonBackReference // Указывает, что это "обратная" сторона связи
     private User user;
-
-    public Subscription() {
-    }
-
-    public Subscription(String subscriptionType, LocalDateTime startDate,
-                        LocalDateTime endDate, String status, User user) {
-        this.subscriptionType = subscriptionType;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.status = status;
-        this.user = user;
-    }
 
     // Геттеры и сеттеры
 
@@ -46,11 +44,11 @@ public class Subscription {
         return id;
     }
 
-    public String getSubscriptionType() {
+    public SubscriptionType getSubscriptionType() {
         return subscriptionType;
     }
 
-    public void setSubscriptionType(String subscriptionType) {
+    public void setSubscriptionType(SubscriptionType subscriptionType) {
         this.subscriptionType = subscriptionType;
     }
 
@@ -70,11 +68,11 @@ public class Subscription {
         this.endDate = endDate;
     }
 
-    public String getStatus() {
+    public SubscriptionStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(SubscriptionStatus status) {
         this.status = status;
     }
 
@@ -84,46 +82,5 @@ public class Subscription {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof Subscription)) {
-            return false;
-        }
-        Subscription that = (Subscription) o;
-        return Objects.equals(getId(), that.getId());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId());
-    }
-
-    @Override
-    public String toString() {
-        return "Subscription{"
-            +
-            "id="
-            + id
-            +
-            ", subscriptionType='"
-            + subscriptionType
-            + '\''
-            +
-            ", startDate="
-            + startDate
-            +
-            ", endDate="
-            + endDate
-            +
-            ", status='"
-            + status
-            + '\''
-            +
-            '}';
     }
 }

@@ -1,5 +1,6 @@
 package com.myfinance.financetracker.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -22,6 +23,7 @@ public class Category {
     private String name;
 
     @ManyToMany(mappedBy = "categories", fetch = FetchType.LAZY)
+    @JsonBackReference
     private List<Budget> budgets = new ArrayList<>();
 
     public Category() {

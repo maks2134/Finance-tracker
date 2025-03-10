@@ -15,9 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * REST-контроллер для управления счетами.
- */
+
 @RestController
 @RequestMapping("/api/accounts")
 public class AccountController {
@@ -44,6 +42,9 @@ public class AccountController {
 
     @PostMapping
     public ResponseEntity<Account> createAccount(@RequestBody Account account) {
+        if (account.getUser() == null || account.getUser().getId() == null) {
+            throw new ResourceNotFoundException("User ID is required");
+        }
         Account createdAccount = accountService.createOrUpdateAccount(account);
         return ResponseEntity.ok(createdAccount);
     }
@@ -56,6 +57,9 @@ public class AccountController {
         account.setName(accountDetails.getName());
         account.setType(accountDetails.getType());
         account.setBalance(accountDetails.getBalance());
+        if (accountDetails.getUser() != null && accountDetails.getUser().getId() != null) {
+            account.setUser(accountDetails.getUser());
+        }
         Account updatedAccount = accountService.createOrUpdateAccount(account);
         return ResponseEntity.ok(updatedAccount);
     }

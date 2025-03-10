@@ -1,5 +1,7 @@
 package com.myfinance.financetracker.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -38,9 +40,11 @@ public class Budget {
         name = "budget_category",
         joinColumns = @JoinColumn(name = "budget_id"),
         inverseJoinColumns = @JoinColumn(name = "category_id"))
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private List<Category> categories = new ArrayList<>();
 
     @OneToMany(mappedBy = "budget", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonBackReference
     private List<Transaction> transactions = new ArrayList<>();
 
     public Budget() {}
@@ -51,6 +55,9 @@ public class Budget {
     }
 
     public Double getRemaining() {
+        if (limitAmount == null) {
+            return null; // или вернуть 0.0, если это имеет смысл в вашем контексте
+        }
         return limitAmount - spent;
     }
 
