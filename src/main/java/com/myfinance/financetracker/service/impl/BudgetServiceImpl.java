@@ -36,7 +36,8 @@ public class BudgetServiceImpl implements BudgetService {
     public Budget createOrUpdateBudget(Budget budget) {
         // Присоединяем категории к текущей сессии
         if (budget.getCategories() != null) {
-            List<Long> listCategoriesId = budget.getCategories().stream().map(Category::getId).toList();
+            List<Long> listCategoriesId = budget.getCategories().stream()
+                .map(Category::getId).toList();
             List<Category> managedCategories = categoryRepository.findAllById(listCategoriesId);
             budget.setCategories(managedCategories);
         }
