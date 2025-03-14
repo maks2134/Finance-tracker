@@ -57,4 +57,9 @@ public class BudgetServiceImpl implements BudgetService {
     public void deleteBudget(Long id) {
         budgetRepository.deleteById(id);
     }
+
+    @Override
+    public List<Budget> getBudgetsByLimitLessThanOrEqual(Double limit) {
+        return budgetRepository.findBudgetsByLimitLessThanOrEqual(limit);
+    }
 }

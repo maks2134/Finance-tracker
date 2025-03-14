@@ -62,4 +62,10 @@ public class TransactionServiceImpl implements TransactionService {
     public void deleteTransaction(Long id) {
         transactionRepository.deleteById(id);
     }
+
+    @Override
+    public List<Transaction> getTransactionsByUserAndDateRange(Long userId,
+                                                               String startDate, String endDate) {
+        return transactionRepository.findTransactionsByUserAndDateRange(userId, startDate, endDate);
+    }
 }

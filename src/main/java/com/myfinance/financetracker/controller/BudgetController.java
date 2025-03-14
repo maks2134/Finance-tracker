@@ -74,4 +74,11 @@ public class BudgetController {
         budgetService.deleteBudget(id);
 	return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/by-limit")
+    public ResponseEntity<List<Budget>> getBudgetsByLimitLessThanOrEqual(
+        @RequestParam Double limit) {
+        List<Budget> budgets = budgetService.getBudgetsByLimitLessThanOrEqual(limit);
+        return ResponseEntity.ok(budgets);
+    }
 }

@@ -81,4 +81,14 @@ public class TransactionController {
         transactionService.deleteTransaction(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/by-user-and-date")
+    public ResponseEntity<List<Transaction>> getTransactionsByUserAndDateRange(
+        @RequestParam Long userId,
+        @RequestParam String startDate,
+        @RequestParam String endDate) {
+        List<Transaction> transactions = transactionService.getTransactionsByUserAndDateRange(
+            userId, startDate, endDate);
+        return ResponseEntity.ok(transactions);
+    }
 }

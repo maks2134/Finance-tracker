@@ -35,4 +35,7 @@ public interface TransactionService {
     Transaction createOrUpdateTransaction(Transaction transaction);
 
     void deleteTransaction(Long id);
+
+    List<Transaction> getTransactionsByUserAndDateRange(Long userId,
+                                                        String startDate, String endDate);
 }
