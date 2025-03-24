@@ -1,20 +1,19 @@
 package com.myfinance.financetracker.service.impl;
 
-import com.myfinance.financetracker.model.Subscription;
-import com.myfinance.financetracker.model.enums.SubscriptionStatus;
-import com.myfinance.financetracker.utils.InMemoryCache;
 import com.myfinance.financetracker.exception.ResourceNotFoundException;
 import com.myfinance.financetracker.model.Analytics;
+import com.myfinance.financetracker.model.Subscription;
 import com.myfinance.financetracker.model.User;
+import com.myfinance.financetracker.model.enums.SubscriptionStatus;
 import com.myfinance.financetracker.repository.AnalyticsRepository;
 import com.myfinance.financetracker.service.AnalyticsService;
 import com.myfinance.financetracker.service.SubscriptionService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
+import com.myfinance.financetracker.utils.InMemoryCache;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class AnalyticsServiceImpl implements AnalyticsService {
@@ -81,11 +80,15 @@ public class AnalyticsServiceImpl implements AnalyticsService {
     private void checkSubscription(User user) {
         List<Subscription> subscriptions = subscriptionService.getAllSubscriptionsByUser(user);
         boolean hasActiveSubscription = subscriptions.stream()
-            .anyMatch(sub -> sub.getStatus() == SubscriptionStatus.ACTIVE // Сравнение через == для enum
+            .anyMatch(sub -> sub.getStatus()
+                ==
+                SubscriptionStatus.ACTIVE // Сравнение через == для enum
                 && sub.getEndDate().isAfter(LocalDateTime.now()));
 
         if (!hasActiveSubscription) {
-            throw new ResourceNotFoundException("Аналитика доступна только для пользователей с активной подпиской.");
+            throw new ResourceNotFoundException("Аналитика доступна"
+                +
+                " только для пользователей с активной подпиской.");
         }
     }
 }
