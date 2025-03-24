@@ -8,6 +8,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -19,9 +22,17 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull(message = "Amount is required")
+    @PositiveOrZero(message = "Amount must be positive or zero")
     private Double amount;
+
+    @NotNull(message = "Payment date is required")
     private LocalDateTime paymentDate;
+
+    @NotBlank(message = "Payment method is required")
     private String paymentMethod; // Например, "Robokassa", "PayPal", etc.
+
+    @NotBlank(message = "Status is required")
     private String status; // Например, "SUCCESS", "PENDING", "FAILED"
 
     @ManyToOne(fetch = FetchType.LAZY)

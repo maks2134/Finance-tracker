@@ -10,6 +10,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import java.math.BigDecimal;
 
 @Entity
@@ -20,9 +23,14 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Name is required")
+    @Size(max = 50, message = "Name must be less than 50 characters")
     private String name;
+
+    @NotBlank(message = "Type is required")
     private String type;
 
+    @NotNull(message = "Balance is required")
     @Column(precision = 19, scale = 2)
     private BigDecimal balance;
 

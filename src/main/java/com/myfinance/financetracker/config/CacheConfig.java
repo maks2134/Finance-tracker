@@ -16,4 +16,9 @@ public class CacheConfig {
     public InMemoryCache<Long, Object> analyticsCache() {
         return new InMemoryCache<>();
     }
+
+    @Bean
+    public InMemoryCache<Long, Object> transactionCache() {
+        return new InMemoryCache<>();
+    }
 }

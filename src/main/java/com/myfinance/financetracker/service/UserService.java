@@ -12,4 +12,7 @@ public interface UserService {
     User createOrUpdateUser(User user);
 
     void deleteUser(Long id);
+
+    // Новый метод для поиска пользователей по amount транзакции
+    List<User> getUsersByTransactionAmount(Double amount);
 }

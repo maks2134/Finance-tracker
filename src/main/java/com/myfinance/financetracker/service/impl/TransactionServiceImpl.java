@@ -5,27 +5,39 @@ import com.myfinance.financetracker.model.Transaction;
 import com.myfinance.financetracker.repository.BudgetRepository;
 import com.myfinance.financetracker.repository.TransactionRepository;
 import com.myfinance.financetracker.service.TransactionService;
-import java.util.List;
-import java.util.Optional;
+import com.myfinance.financetracker.utils.InMemoryCache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TransactionServiceImpl implements TransactionService {
 
     private final TransactionRepository transactionRepository;
     private final BudgetRepository budgetRepository;
+    private final InMemoryCache<Long, Transaction> transactionCache;
 
     @Autowired
     public TransactionServiceImpl(TransactionRepository transactionRepository,
-                                  BudgetRepository budgetRepository) {
+                                  BudgetRepository budgetRepository,
+                                  InMemoryCache<Long, Transaction> transactionCache) {
         this.transactionRepository = transactionRepository;
         this.budgetRepository = budgetRepository;
+        this.transactionCache = transactionCache;
     }
 
     @Override
     public Optional<Transaction> getTransactionById(Long id) {
-        return transactionRepository.findById(id);
+        Transaction cachedTransaction = transactionCache.get(id);
+        if (cachedTransaction != null) {
+            return Optional.of(cachedTransaction);
+        }
+
+        Optional<Transaction> transaction = transactionRepository.findById(id);
+        transaction.ifPresent(t -> transactionCache.put(t.getId(), t));
+        return transaction;
     }
 
     @Override
@@ -55,12 +67,14 @@ public class TransactionServiceImpl implements TransactionService {
             budget.setSpent(budget.getSpent() + transaction.getAmount());
             budgetRepository.save(budget);
         }
+        transactionCache.put(savedTransaction.getId(), savedTransaction);
         return savedTransaction;
     }
 
     @Override
     public void deleteTransaction(Long id) {
         transactionRepository.deleteById(id);
+        transactionCache.evict(id);
     }
 
     @Override

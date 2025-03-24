@@ -13,6 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
@@ -23,13 +24,17 @@ public class Subscription {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull(message = "Subscription type is required")
     @Enumerated(EnumType.STRING)
     private SubscriptionType subscriptionType;
 
+    @NotNull(message = "Start date is required")
     private LocalDateTime startDate;
 
+    @NotNull(message = "End date is required")
     private LocalDateTime endDate;
 
+    @NotNull(message = "Status is required")
     @Enumerated(EnumType.STRING)
     private SubscriptionStatus status;
 

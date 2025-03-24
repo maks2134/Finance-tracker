@@ -10,6 +10,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
 import java.util.Objects;
 
 @Entity
@@ -20,10 +23,14 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull(message = "Amount is required")
+    @PositiveOrZero(message = "Amount must be positive or zero")
     private Double amount;
 
+    @NotBlank(message = "Date is required")
     private String date;
 
+    @NotBlank(message = "Description is required")
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY)

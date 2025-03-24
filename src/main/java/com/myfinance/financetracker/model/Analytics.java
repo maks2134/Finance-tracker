@@ -8,6 +8,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -19,9 +21,14 @@ public class Analytics {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull(message = "Analysis date is required")
     private LocalDateTime analysisDate;
-    private String analysisResult; // Результат анализа в виде JSON или текста
-    private String recommendations; // Рекомендации по сокращению расходов
+
+    @NotBlank(message = "Analysis result is required")
+    private String analysisResult;
+
+    @NotBlank(message = "Recommendations are required")
+    private String recommendations;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
