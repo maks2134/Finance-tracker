@@ -15,7 +15,7 @@
             </Policies>
         </RollingFile>
     </Appenders>
-
+    <logger name="com.myfinance.financetracker.utils" level="INFO" />
     <Loggers>
         <Root level="info">
             <AppenderRef ref="Console"/>

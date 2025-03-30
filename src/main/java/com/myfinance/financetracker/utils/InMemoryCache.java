@@ -10,7 +10,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-@SuppressWarnings("squid:S6829")
+
 @Component
 public class InMemoryCache<K, V> {
 
@@ -36,14 +36,28 @@ public class InMemoryCache<K, V> {
 
     private final Map<K, CacheEntry<V>> cache = new ConcurrentHashMap<>();
     private final long ttlMillis;
+    private final int maxSize;
     private final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
 
+    /**
+     * Конструктор по умолчанию:
+     * TTL — 5 минут
+     * Максимальный размер кэша — 100 записей.
+     */
     public InMemoryCache() {
-        this(300_000); // Значение по умолчанию: 5 минут
+        this(300_000, 100);
     }
 
-    public InMemoryCache(long ttlMillis) {
+    /**
+     * Конструктор с параметрами.
+     *
+     * @param ttlMillis время жизни записей в миллисекундах
+     * @param maxSize   максимальное количество записей в кэше
+     */
+    public InMemoryCache(long ttlMillis, int maxSize) {
         this.ttlMillis = ttlMillis;
+        this.maxSize = maxSize;
+        logger.info("InMemoryCache instance created with TTL {} milliseconds and maxSize {}", ttlMillis, maxSize);
         scheduler.scheduleAtFixedRate(this::evictExpiredEntries, ttlMillis, ttlMillis, TimeUnit.MILLISECONDS);
     }
 
@@ -63,6 +77,11 @@ public class InMemoryCache<K, V> {
     }
 
     public void put(K key, V value) {
+        // Если кэш достиг максимального размера, очищаем его
+        if (cache.size() >= maxSize) {
+            logger.info("Cache maximum size reached. Clearing cache.");
+            clear();
+        }
         CacheEntry<V> entry = new CacheEntry<>(value, System.currentTimeMillis() + ttlMillis);
         cache.put(key, entry);
         logger.info("Cache put for key: {}", key);
