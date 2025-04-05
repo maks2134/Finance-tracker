@@ -21,9 +21,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * REST-контроллер для управления транзакциями.
- */
 @RestController
 @RequestMapping("/api/transactions")
 @Tag(name = "Transaction Controller", description = "API для управления транзакциями")
@@ -64,6 +61,20 @@ public class TransactionController {
     public ResponseEntity<Transaction> createTransaction(@Valid @RequestBody Transaction transaction) {
         Transaction createdTransaction = transactionService.createOrUpdateTransaction(transaction);
         return ResponseEntity.ok(createdTransaction);
+    }
+
+    @PostMapping("/bulk")
+    @Operation(summary = "Массовое создание/обновление транзакций",
+        description = "Создает или обновляет список транзакций за одну операцию")
+    @ApiResponse(responseCode = "200", description = "Транзакции успешно обработаны")
+    @ApiResponse(responseCode = "400", description = "Некорректные данные в запросе")
+    public ResponseEntity<List<Transaction>> processTransactionsBulk(
+        @RequestBody List<@Valid Transaction> transactions) {
+        List<Transaction> processedTransactions = transactions.stream()
+            .map(transactionService::createOrUpdateTransaction)
+            .toList();
+
+        return ResponseEntity.ok(processedTransactions);
     }
 
     @PutMapping("/{id}")

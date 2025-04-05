@@ -137,4 +137,9 @@ public class Payment {
             +
             '}';
     }
+
+    public void setId(long l)
+    {
+        this.id = l;
+    }
 }

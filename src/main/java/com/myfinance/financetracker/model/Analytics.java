@@ -120,4 +120,9 @@ public class Analytics {
             +
             '}';
     }
+
+    public void setId(long l)
+    {
+        this.id=l;
+    }
 }

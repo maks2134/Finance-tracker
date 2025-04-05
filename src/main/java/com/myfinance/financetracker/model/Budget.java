@@ -91,6 +91,7 @@ public class Budget {
         return spent;
     }
 
+
     public void setSpent(Double spent) {
         this.spent = spent;
     }
@@ -141,5 +142,16 @@ public class Budget {
             + ", spent="
             + spent
             + '}';
+    }
+
+    public void setId(long id)
+    {
+        this.id=id;
+    }
+
+
+    public void setAmount(double v)
+    {
+        this.limitAmount=v;
     }
 }

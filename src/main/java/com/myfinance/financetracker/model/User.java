@@ -154,4 +154,9 @@ public class User {
             +
             '}';
     }
+
+    public void setId(Long id)
+    {
+        this.id=id;
+    }
 }

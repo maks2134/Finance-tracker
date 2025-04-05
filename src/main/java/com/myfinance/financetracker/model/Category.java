@@ -85,4 +85,9 @@ public class Category {
             +
             '}';
     }
+
+    public void setId(long l)
+    {
+        this.id=l;
+    }
 }
