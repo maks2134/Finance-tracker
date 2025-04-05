@@ -2,7 +2,6 @@ package com.myfinance.financetracker.controller;
 
 import com.myfinance.financetracker.exception.ResourceNotFoundException;
 import com.myfinance.financetracker.model.Subscription;
-import com.myfinance.financetracker.model.enums.SubscriptionStatus;
 import com.myfinance.financetracker.service.SubscriptionService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
