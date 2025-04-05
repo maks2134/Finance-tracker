@@ -8,7 +8,6 @@ import com.myfinance.financetracker.model.enums.SubscriptionStatus;
 import com.myfinance.financetracker.repository.AnalyticsRepository;
 import com.myfinance.financetracker.service.AnalyticsService;
 import com.myfinance.financetracker.service.SubscriptionService;
-import com.myfinance.financetracker.utils.InMemoryCache;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -20,75 +19,47 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 
     private final AnalyticsRepository analyticsRepository;
     private final SubscriptionService subscriptionService;
-    private final InMemoryCache<Long, Analytics> analyticsCache; // Кэш для аналитики
 
     @Autowired
     public AnalyticsServiceImpl(AnalyticsRepository analyticsRepository,
-                                SubscriptionService subscriptionService,
-                                InMemoryCache<Long, Analytics> analyticsCache) {
+                                SubscriptionService subscriptionService) {
         this.analyticsRepository = analyticsRepository;
         this.subscriptionService = subscriptionService;
-        this.analyticsCache = analyticsCache;
     }
 
     @Override
     public Optional<Analytics> getAnalyticsById(Long id, User user) {
-        checkSubscription(user); // Проверяем подписку
-
-        // Проверяем кэш
-        Analytics cachedAnalytics = analyticsCache.get(id);
-        if (cachedAnalytics != null) {
-            return Optional.of(cachedAnalytics);
-        }
-
-        // Если в кэше нет, запрашиваем из БД
-        Optional<Analytics> analytics = analyticsRepository.findByIdAndUser(id, user);
-        analytics.ifPresent(anal -> analyticsCache.put(id, anal)); // Сохраняем в кэш
-        return analytics;
+        checkSubscription(user);
+        return analyticsRepository.findByIdAndUser(id, user);
     }
 
     @Override
     public List<Analytics> getAllAnalytics(User user) {
-        checkSubscription(user); // Проверяем подписку
+        checkSubscription(user);
         return analyticsRepository.findByUser(user);
     }
 
     @Override
     public Analytics createOrUpdateAnalytics(Analytics analytics, User user) {
-        checkSubscription(user); // Проверяем подписку
+        checkSubscription(user);
         analytics.setUser(user);
-
-        // Сохраняем в БД
-        Analytics savedAnalytics = analyticsRepository.save(analytics);
-
-        // Обновляем кэш
-        analyticsCache.put(savedAnalytics.getId(), savedAnalytics);
-        return savedAnalytics;
+        return analyticsRepository.save(analytics);
     }
 
     @Override
     public void deleteAnalytics(Long id, User user) {
-        checkSubscription(user); // Проверяем подписку
-
-        // Удаляем из БД
+        checkSubscription(user);
         analyticsRepository.deleteByIdAndUser(id, user);
-
-        // Удаляем из кэша
-        analyticsCache.evict(id);
     }
 
     private void checkSubscription(User user) {
         List<Subscription> subscriptions = subscriptionService.getAllSubscriptionsByUser(user);
         boolean hasActiveSubscription = subscriptions.stream()
-            .anyMatch(sub -> sub.getStatus()
-                ==
-                SubscriptionStatus.ACTIVE // Сравнение через == для enum
+            .anyMatch(sub -> sub.getStatus() == SubscriptionStatus.ACTIVE
                 && sub.getEndDate().isAfter(LocalDateTime.now()));
 
         if (!hasActiveSubscription) {
-            throw new ResourceNotFoundException("Аналитика доступна"
-                +
-                " только для пользователей с активной подпиской.");
+            throw new ResourceNotFoundException("Аналитика доступна только для пользователей с активной подпиской.");
         }
     }
 }

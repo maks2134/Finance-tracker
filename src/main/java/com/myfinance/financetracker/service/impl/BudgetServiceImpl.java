@@ -5,6 +5,7 @@ import com.myfinance.financetracker.model.Category;
 import com.myfinance.financetracker.repository.BudgetRepository;
 import com.myfinance.financetracker.repository.CategoryRepository;
 import com.myfinance.financetracker.service.BudgetService;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,10 +47,12 @@ public class BudgetServiceImpl implements BudgetService {
 
     @Override
     public Budget createOrUpdateBudgetWithCategoryIds(Budget budget, List<Long> categoryIds) {
-        // Загружаем категории по их ID
-        List<Category> categories = categoryRepository.findAllById(categoryIds);
-        budget.setCategories(categories);
-
+        if (categoryIds != null && !categoryIds.isEmpty()) {
+            List<Category> categories = categoryRepository.findAllById(categoryIds);
+            budget.setCategories(categories);
+        } else {
+            budget.setCategories(Collections.emptyList());
+        }
         return budgetRepository.save(budget);
     }
 
