@@ -12,3 +12,6 @@ services:
       POSTGRES_DB: java
     volumes:
       - postgres_data:/var/lib/postgresql/data
+
+volumes:  # Добавьте эту секцию
+  postgres_data:  # Определение тома
