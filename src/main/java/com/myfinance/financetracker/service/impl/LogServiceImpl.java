@@ -2,6 +2,8 @@ package com.myfinance.financetracker.service.impl;
 
 import com.myfinance.financetracker.model.LogTask;
 import com.myfinance.financetracker.service.LogService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
@@ -18,15 +20,19 @@ import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
 public class LogServiceImpl implements LogService {
 
-    private static final String LOGS_DIRECTORY = "C:/Users/User/IdeaProjects/Finance-tracker/logs";
-    private static final String MAIN_LOG_FILE = "C:/Users/User/IdeaProjects/Finance-tracker/logs/application.log";
+//    private static final String LOGS_DIRECTORY = "/home/Yahor/IdeaProjects/Finance-tracker/logs";
+//    private static final String MAIN_LOG_FILE = "/home/Yahor/IdeaProjects/Finance-tracker/logs/application.log";
+    private static final String LOGS_DIRECTORY = "C:/java/Finance-tracker/logs";
+    private static final String MAIN_LOG_FILE = "C:/java/Finance-tracker/logs/application.log";
     private final Map<String, LogTask> tasks = new ConcurrentHashMap<>();
+    private static final Logger logger = LoggerFactory.getLogger(LogServiceImpl.class);
 
     @Override
     public String generateLogFile(String date, String logType) {
@@ -40,19 +46,24 @@ public class LogServiceImpl implements LogService {
 
     @Async
     public void processLogGenerationAsync(String taskId, String date, String logType) {
+        logger.info("Начало обработки задачи {}", taskId);
         LogTask task = tasks.get(taskId);
-        task.setStatus("PROCESSING");
 
         try {
+            // Этап 1: Начало обработки
+            task.setStatus("PROCESSING: Reading logs");
+            logger.info("Task {} - Reading logs started", taskId);
+            TimeUnit.SECONDS.sleep(3);
+
             Path logPath = Paths.get(MAIN_LOG_FILE);
             if (!Files.exists(logPath)) {
                 throw new IOException("Main log file not found");
             }
 
-            Path logsDir = Paths.get(LOGS_DIRECTORY);
-            if (!Files.exists(logsDir)) {
-                Files.createDirectories(logsDir);
-            }
+            // Этап 2: Фильтрация
+            task.setStatus("PROCESSING: Filtering logs");
+            logger.info("Task {} - Filtering started", taskId);
+            TimeUnit.SECONDS.sleep(3);
 
             String filteredLogs;
             try (Stream<String> lines = Files.lines(logPath)) {
@@ -62,18 +73,27 @@ public class LogServiceImpl implements LogService {
                         .collect(Collectors.joining("\n"));
             }
 
+            // Этап 3: Сохранение файла
+            task.setStatus("PROCESSING: Saving file");
+            logger.info("Task {} - Saving started", taskId);
+            TimeUnit.SECONDS.sleep(3);
+
             if (filteredLogs.isEmpty()) {
-                throw new IOException("No logs found for specified criteria");
+                throw new IOException("No logs found");
             }
 
-            String filename = String.format("logs-%s-%s.log", date, taskId);
-            Path outputFile = logsDir.resolve(filename);
+            Path outputFile = Paths.get(LOGS_DIRECTORY)
+                    .resolve(String.format("logs-%s-%s.log", date, taskId));
             Files.write(outputFile, filteredLogs.getBytes());
 
             task.setStatus("COMPLETED");
             task.setFilePath(outputFile.toString());
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            task.setStatus("FAILED: Interrupted");
+            task.setErrorMessage(e.getMessage());
         } catch (Exception e) {
-            task.setStatus("FAILED");
+            task.setStatus("FAILED: " + e.getClass().getSimpleName());
             task.setErrorMessage(e.getMessage());
         }
     }

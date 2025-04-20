@@ -2,6 +2,7 @@ package com.myfinance.financetracker.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Entity
 @Table(name = "visits")
@@ -52,4 +53,5 @@ public class Visit {
     public void setLastVisitedAt(LocalDateTime lastVisitedAt) {
         this.lastVisitedAt = lastVisitedAt;
     }
+
 }
