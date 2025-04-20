@@ -27,10 +27,9 @@ import java.util.stream.Stream;
 @Service
 public class LogServiceImpl implements LogService {
 
-//    private static final String LOGS_DIRECTORY = "/home/Yahor/IdeaProjects/Finance-tracker/logs";
-//    private static final String MAIN_LOG_FILE = "/home/Yahor/IdeaProjects/Finance-tracker/logs/application.log";
-    private static final String LOGS_DIRECTORY = "C:/java/Finance-tracker/logs";
-    private static final String MAIN_LOG_FILE = "C:/java/Finance-tracker/logs/application.log";
+    private static final String LOGS_DIRECTORY = "/home/Yahor/IdeaProjects/Finance-tracker/logs";
+    private static final String MAIN_LOG_FILE = "/home/Yahor/IdeaProjects/Finance-tracker/logs/application.log";
+
     private final Map<String, LogTask> tasks = new ConcurrentHashMap<>();
     private static final Logger logger = LoggerFactory.getLogger(LogServiceImpl.class);
 
