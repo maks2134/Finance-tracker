@@ -1,0 +1,5 @@
+com/myfinance/financetracker/service/impl/UserServiceImplTest.class
+com/myfinance/financetracker/controller/TransactionControllerTest.class
+com/myfinance/financetracker/service/impl/CategoryServiceImplTest.class
+com/myfinance/financetracker/controller/CategoryControllerTest.class
+com/myfinance/financetracker/controller/UserControllerTest.class
