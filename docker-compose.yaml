@@ -7,9 +7,9 @@ services:
     ports:
       - "8080:8080"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/java
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_DATASOURCE_URL: jdbc:postgresql://dpg-d0bq6heuk2gs7382at4g-a:5432/postgres_6f6z
+      SPRING_DATASOURCE_USERNAME: postgress
+      SPRING_DATASOURCE_PASSWORD: FY10E6w4TrGBuI6R6CKy6Bz6hBOBDr2U
     depends_on:
       postgres:
         condition: service_healthy
@@ -18,9 +18,9 @@ services:
     image: postgres
     container_name: java-postgres
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: java
+      POSTGRES_USER: postgresы
+      POSTGRES_PASSWORD: FY10E6w4TrGBuI6R6CKy6Bz6hBOBDr2U
+      POSTGRES_DB: postgres_6f6z
     ports:
       - "5433:5432"
     volumes:
