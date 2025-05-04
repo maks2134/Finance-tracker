@@ -30,25 +30,10 @@ public class User {
     @Email(message = "Email should be valid")
     private String email;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private List<Account> accounts = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private List<Transaction> transactions = new ArrayList<>();
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private List<Payment> payments = new ArrayList<>();
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private List<Subscription> subscriptions = new ArrayList<>();
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private List<Analytics> analytics = new ArrayList<>();
 
     public User() {
     }
@@ -80,13 +65,7 @@ public class User {
         this.email = email;
     }
 
-    public List<Account> getAccounts() {
-        return accounts;
-    }
-
-    public void setAccounts(List<Account> accounts) {
-        this.accounts = accounts;
-    }
+  
 
     public List<Transaction> getTransactions() {
         return transactions;
@@ -96,29 +75,7 @@ public class User {
         this.transactions = transactions;
     }
 
-    public List<Payment> getPayments() {
-        return payments;
-    }
 
-    public void setPayments(List<Payment> payments) {
-        this.payments = payments;
-    }
-
-    public List<Subscription> getSubscriptions() {
-        return subscriptions;
-    }
-
-    public void setSubscriptions(List<Subscription> subscriptions) {
-        this.subscriptions = subscriptions;
-    }
-
-    public List<Analytics> getAnalytics() {
-        return analytics;
-    }
-
-    public void setAnalytics(List<Analytics> analytics) {
-        this.analytics = analytics;
-    }
 
     @Override
     public boolean equals(Object o) {
