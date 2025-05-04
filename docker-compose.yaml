@@ -1,26 +1,13 @@
-# version: '3.8' <-- УДАЛИТЕ ИЛИ ЗАКОММЕНТИРУЙТЕ ЭТУ СТРОКУ
+version: '3.8'
 
 services:
-  app:
-    container_name: java-app
-    build: .
-    ports:
-      - "8080:8080"
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://dpg-d0bq6heuk2gs7382at4g-a:5432/postgres_6f6z
-      SPRING_DATASOURCE_USERNAME: postgress
-      SPRING_DATASOURCE_PASSWORD: FY10E6w4TrGBuI6R6CKy6Bz6hBOBDr2U
-    depends_on:
-      postgres:
-        condition: service_healthy
-
   postgres:
     image: postgres
     container_name: java-postgres
     environment:
-      POSTGRES_USER: postgresы
-      POSTGRES_PASSWORD: FY10E6w4TrGBuI6R6CKy6Bz6hBOBDr2U
-      POSTGRES_DB: postgres_6f6z
+      POSTGRES_USER: postgres       # <-- Это создаст роль "postgres"
+      POSTGRES_PASSWORD: postgres   # <-- Пароль для роли
+      POSTGRES_DB: java             # <-- База данных будет создана автоматически
     ports:
       - "5433:5432"
     volumes:
@@ -30,6 +17,6 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-
-volumes:
-  postgres_data: {}
+      
+volumes:  # <--- ДОБАВЛЕНА ЭТА КОРНЕВАЯ СЕКЦИЯ
+  postgres_data: {} # <--- Объявление именованного volume 'postgres_data'
